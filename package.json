@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-hcaptcha",
   "version": "0.1.0",
   "description": "An hCaptcha proxy n8n node that implements the server side logic to verify an hCaptcha request.",
   "keywords": [

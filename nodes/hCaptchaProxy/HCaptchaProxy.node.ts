@@ -55,13 +55,18 @@ export class HCaptchaProxy implements INodeType {
 
             console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
 
-            const verificationResponse = await axios.post('https://hcaptcha.com/siteverify', null, {
-                params: {
-                    secret: secretKey,
-                    response: response,
-                },
-            });
-
+			const verificationResponse = await axios.post(
+				'https://hcaptcha.com/siteverify',
+				new URLSearchParams({
+					secret: secretKey,
+					response: response,
+				}).toString(),
+				{
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+				}
+			);
             console.log(`[hCaptcha] Verification result for item ${itemIndex}:`, verificationResponse.data);
 
             results.push({

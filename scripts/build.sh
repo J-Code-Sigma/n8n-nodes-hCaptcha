@@ -1,8 +1,10 @@
+mkdir -p dist/nodes/hCaptchaProxy
 cp -r nodes/hCaptchaProxy/ dist/nodes/hCaptchaProxy/
 
 
 npm run build
 
+npm link
 
 mkdir -p ~/.n8n/custom
 cd ~/.n8n/custom
