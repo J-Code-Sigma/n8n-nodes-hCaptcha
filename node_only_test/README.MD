@@ -54,7 +54,7 @@ To view and test the `hcaptcha.html` file in your browser, use the [`serve`](htt
 2. In your terminal, navigate to the project directory:
 
    ```bash
-   cd /Users/jane/Documents/VS Code Projects/n8n/n8n-nodes-hCaptcha/node_only_test
+   cd path/to/your/project
    ```
 
 3. Start the server:
@@ -107,8 +107,4 @@ When you are ready for production, replace the test keys with your real site key
 
 * If you see `missing-input-response`, ensure the form is submitting the token.
 * If you see `missing-input-secret`, ensure your secret key is correctly added in the Node.js file.
-* Always verify the response server-side—never trust client-side only.
-
-## License
-
-MIT
+* Always verify the response server-side—never trust client-side
