@@ -2,5 +2,5 @@ curl -X POST http://localhost:5678/webhook-test/cab44adb-6038-47f7-a338-025fccab
   -H "Content-Type: application/json" \
   -d '{
     "secretKey": "0x0000000000000000000000000000000000000000",
-    "response": "PASTE_YOUR_HCAPTCHA_RESPONSE_TOKEN_HERE"
+    "response": "10000000-aaaa-bbbb-cccc-000000000001"
   }'
