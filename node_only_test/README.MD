@@ -26,42 +26,69 @@ This project demonstrates how to integrate and verify hCaptcha responses using a
 npm install node-fetch
 ```
 
-### 2. Create and Configure `package.json`
+### 2. Use hCaptcha Test Keys
 
-Make sure your `package.json` includes:
+**For local development and testing, always use the official hCaptcha test keys:**
 
-```json
-{
-  "type": "module"
-}
-```
+- **Test Site Key:**  
+  ```
+  10000000-ffff-ffff-ffff-000000000001
+  ```
+- **Test Secret Key:**  
+  ```
+  0x0000000000000000000000000000000000000000
+  ```
 
-This enables ES module syntax.
+These keys are safe for development and will always return a successful verification.
 
-### 3. Edit `hcaptcha.html`
+### 3. Serve the HTML File Locally
 
-Update the following line with your **site key**:
+To view and test the `hcaptcha.html` file in your browser, use the [`serve`](https://www.npmjs.com/package/serve) package:
+
+1. Install `serve` globally (if you haven't already):
+
+   ```bash
+   npm install -g serve
+   ```
+
+2. In your terminal, navigate to the project directory:
+
+   ```bash
+   cd /Users/jane/Documents/VS Code Projects/n8n/n8n-nodes-hCaptcha/node_only_test
+   ```
+
+3. Start the server:
+
+   ```bash
+   serve .
+   ```
+
+4. Open your browser and go to [http://localhost:3000/hcaptcha.html](http://localhost:3000/hcaptcha.html).
+
+### 4. Edit `hcaptcha.html`
+
+Update the following line with the **test site key**:
 
 ```html
 <script src="https://hcaptcha.com/1/api.js" async defer></script>
-<div class="h-captcha" data-sitekey="your-site-key"></div>
+<div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001"></div>
 ```
 
 When the user submits the form, the browser sends the hCaptcha token to your server.
 
-### 4. Create `testhcaptcha.js`
+### 5. Edit `testhcaptcha.js`
 
-Update this file with your **secret key**:
+Update this file with the **test secret key**:
 
 ```js
-const secret = 'your-secret-key';
+const secret = '0x0000000000000000000000000000000000000000';
 ```
 
 This file verifies the hCaptcha token using the hCaptcha API.
 
-### 5. Run the Server Test
+### 6. Run the Server Test
 
-Use the browser to open `hcaptcha.html`, complete the captcha, then manually submit the token to your server or modify the page to POST the form automatically.
+Use the browser to open `hcaptcha.html`, complete the captcha, then manually copy the token from the browser console and paste it into your Node.js test file.
 
 Then run:
 
@@ -70,6 +97,11 @@ node testhcaptcha.js
 ```
 
 You should see verification results in the console.
+
+---
+
+**Note:**  
+When you are ready for production, replace the test keys with your real site key and secret key from the hCaptcha dashboard.
 
 ## Troubleshooting
 

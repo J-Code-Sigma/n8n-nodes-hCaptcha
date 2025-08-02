@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 class MockNodeExecution {
 	constructor(items) {
@@ -26,8 +26,8 @@ async function execute() {
 	const items = [
 		{
 			json: {
-				secretKey: '', // Replace with real key
-				response: '', // Replace with real response
+				secretKey: '0x0000000000000000000000000000000000000000', // Replace with real key
+				response: '', // Replace with real response found in console.log after submit is clicked
 			},
 		},
 	];
