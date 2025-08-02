@@ -1,48 +1,77 @@
 # n8n-nodes-hcaptcha
 
-This is an n8n community node. It lets you use _app/service name_ in your n8n workflows.
+This is an n8n community node that enables verification of hCaptcha responses within your n8n workflows.
 
-_App/service name_ is _one or two sentences describing the service this node integrates with_.
+The node acts as a proxy to the hCaptcha verification API, allowing you to securely validate user captcha tokens server-side as part of your automation.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
 [Installation](#installation)  
 [Operations](#operations)  
-[Credentials](#credentials) 
+[Credentials](#credentials)  
 [Compatibility](#compatibility)  
-[Usage](#usage) 
+[Usage](#usage)  
 [Resources](#resources)  
-[Version history](#version-history) 
+[Version history](#version-history)
+
+---
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+Follow the [n8n community nodes installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) to add this node to your n8n instance.
+
+---
 
 ## Operations
 
-_List the operations supported by your node._
+- **Verify hCaptcha token**: Send a user’s hCaptcha response token and your secret key to the official hCaptcha verification endpoint to confirm validity.
+
+---
 
 ## Credentials
 
-_If users need to authenticate with the app/service, provide details here. You should include prerequisites (such as signing up with the service), available authentication methods, and how to set them up._
+This node requires an **hCaptcha secret key** to authenticate with the hCaptcha API.
+
+### Prerequisites
+
+- Sign up for an hCaptcha account at [https://www.hcaptcha.com/](https://www.hcaptcha.com/).
+- Register your site to get your **Secret Key** from the hCaptcha dashboard.
+
+### Authentication
+
+- The node uses this secret key as a credential.
+- In n8n, create an **hCaptcha API credential** and securely store your secret key.
+- Link this credential in the node’s settings when configuring workflows.
+
+---
 
 ## Compatibility
 
-_State the minimum n8n version, as well as which versions you test against. You can also include any known version incompatibility issues._
+- Minimum tested n8n version: **v0.230.0**
+- Compatible with n8n cloud and self-hosted setups.
+- No known incompatibilities as of this version.
+
+---
 
 ## Usage
 
-_This is an optional section. Use it to help users with any difficult or confusing aspects of the node._
+1. Add the **hCaptcha Proxy** node to your workflow.
+2. Select or create your hCaptcha API credential with your secret key.
+3. Pass the user’s hCaptcha response token to the node’s `response` parameter.
+4. Execute the node to verify the token with hCaptcha servers.
+5. Use the verification result (`success` boolean and additional data) in your workflow logic.
 
-_By the time users are looking for community nodes, they probably already know n8n basics. But if you expect new users, you can link to the [Try it out](https://docs.n8n.io/try-it-out/) documentation to help them get started._
+If you're new to n8n, check out the [Try it out](https://docs.n8n.io/try-it-out/) guide for basics.
+
+---
 
 ## Resources
 
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* _Link to app/service documentation._
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [hCaptcha official documentation](https://docs.hcaptcha.com/)
+
+---
 
 ## Version history
 
-_This is another optional section. If your node has multiple versions, include a short description of available versions and what changed, as well as any compatibility impact._
-
-
+- **v1.0.0**: Initial release supporting hCaptcha response verification via secret key and token.
