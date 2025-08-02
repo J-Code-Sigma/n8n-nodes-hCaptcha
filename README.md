@@ -1,8 +1,16 @@
 # n8n-nodes-hcaptcha
 
-This is an n8n community node that enables verification of hCaptcha responses within your n8n workflows.
+[![npm version](https://badge.fury.io/js/n8n-nodes-hcaptcha.svg)](https://www.npmjs.com/package/n8n-nodes-hcaptcha)
+
+This is an [n8n](https://n8n.io/) community node that enables verification of hCaptcha responses within your workflows.
 
 The node acts as a proxy to the hCaptcha verification API, allowing you to securely validate user captcha tokens server-side as part of your automation.
+
+- 📦 [View on npm](https://www.npmjs.com/package/n8n-nodes-hcaptcha)
+- 🧩 Works with n8n self-hosted and n8n cloud
+- 🔒 Securely handles hCaptcha verification with secret keys
+
+---
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
