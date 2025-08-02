@@ -18,6 +18,7 @@ export class HCaptchaProxy implements INodeType {
 		defaults: {
 			name: 'hCaptcha Proxy',
 		},
+		icon: 'file:hcaptcha.svg',
 		inputs: [NodeConnectionType.Main],
 		outputs: [NodeConnectionType.Main],
 		usableAsTool: true,
@@ -45,7 +46,7 @@ export class HCaptchaProxy implements INodeType {
 
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				const credentials = await this.getCredentials('hcaptchaApi');
+				const credentials = await this.getCredentials('hCaptchaApi');
 				const response = this.getNodeParameter('response', itemIndex) as string;
 
 				console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
