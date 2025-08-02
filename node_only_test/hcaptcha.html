@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hCaptcha Test</title>
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+  </head>
+  <body>
+    <form id="form">
+      <div class="h-captcha" data-sitekey="a2b0ec30-2296-4290-b3fe-c2be9cea8c44"></div>
+      <br />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      document.getElementById('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const token = document.querySelector('[name="h-captcha-response"]').value;
+        console.log("Response token:", token);
+        alert("Token copied to console. Paste it into your Node test.");
+      });
+    </script>
+  </body>
+</html>
