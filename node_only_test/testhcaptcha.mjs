@@ -26,8 +26,8 @@ async function execute() {
 	const items = [
 		{
 			json: {
-				secretKey: '456', // Replace with real key
-				response: '654', // Replace with real token
+				secretKey: '', // Replace with real key
+				response: '', // Replace with real response
 			},
 		},
 	];
@@ -46,12 +46,18 @@ async function execute() {
 
 			console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
 
-			const verificationResponse = await axios.post('https://hcaptcha.com/siteverify', null, {
-				params: {
+			const verificationResponse = await axios.post(
+				'https://hcaptcha.com/siteverify',
+				new URLSearchParams({
 					secret: secretKey,
 					response: response,
-				},
-			});
+				}).toString(),
+				{
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+				}
+			);
 
 			console.log(`[hCaptcha] Verification result:`, verificationResponse.data);
 
