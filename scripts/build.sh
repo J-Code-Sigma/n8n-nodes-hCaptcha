@@ -1,5 +1,9 @@
-mkdir -p dist/nodes/hCaptchaProxy
-cp -r nodes/hCaptchaProxy/ dist/nodes/hCaptchaProxy/
+npm i
+
+npm run lint
+
+cp -r nodes/ dist/nodes
+cp -r credentials/ dist/credentials
 
 
 npm run build

@@ -21,18 +21,13 @@ export class HCaptchaProxy implements INodeType {
 		inputs: [NodeConnectionType.Main],
 		outputs: [NodeConnectionType.Main],
 		usableAsTool: true,
-		properties: [
+		credentials: [
 			{
-				displayName: 'Secret Key',
-				name: 'secretKey',
-				type: 'string',
-				default: '',
-				placeholder: 'Your hCaptcha secret key',
-				description: 'The secret key for your hCaptcha',
-				typeOptions: {
-					password: true,
-				},
+				name: 'hCaptchaApi',
+				required: true,
 			},
+		],
+		properties: [
 			{
 				displayName: 'Response',
 				name: 'response',
@@ -45,46 +40,47 @@ export class HCaptchaProxy implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    const items = this.getInputData();
-    const results: INodeExecutionData[] = [];
+		const items = this.getInputData();
+		const results: INodeExecutionData[] = [];
 
-    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-        try {
-            const secretKey = this.getNodeParameter('secretKey', itemIndex) as string;
-            const response = this.getNodeParameter('response', itemIndex) as string;
+		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+			try {
+				const credentials = await this.getCredentials('hcaptchaApi');
+				const response = this.getNodeParameter('response', itemIndex) as string;
 
-            console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
+				console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
 
-			const verificationResponse = await axios.post(
-				'https://hcaptcha.com/siteverify',
-				new URLSearchParams({
-					secret: secretKey,
-					response: response,
-				}).toString(),
-				{
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
+				const verificationResponse = await axios.post(
+					'https://hcaptcha.com/siteverify',
+					new URLSearchParams({
+					secret: String(credentials.secret),
+					response,
+					}).toString(),
+					{
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded',
+						},
+					}
+				);
+
+				console.log(`[hCaptcha] Verification result for item ${itemIndex}:`, verificationResponse.data);
+
+				results.push({
+					json: {
+						success: verificationResponse.data.success,
+						...verificationResponse.data,
 					},
+				});
+			} catch (error) {
+				console.error(`[hCaptcha] Error verifying item ${itemIndex}:`, error);
+				if (this.continueOnFail()) {
+					results.push({ json: { error: error.message }, pairedItem: itemIndex });
+				} else {
+					throw new NodeOperationError(this.getNode(), error, { itemIndex });
 				}
-			);
-            console.log(`[hCaptcha] Verification result for item ${itemIndex}:`, verificationResponse.data);
+			}
+		}
 
-            results.push({
-                json: {
-                    success: verificationResponse.data.success,
-                    ...verificationResponse.data,
-                },
-            });
-        } catch (error) {
-            console.error(`[hCaptcha] Error verifying item ${itemIndex}:`, error);
-            if (this.continueOnFail()) {
-                results.push({ json: { error: error.message }, pairedItem: itemIndex });
-            } else {
-                throw new NodeOperationError(this.getNode(), error, { itemIndex });
-            }
-        }
-    }
-
-    return [results];
+		return [results];
 	}
 }
