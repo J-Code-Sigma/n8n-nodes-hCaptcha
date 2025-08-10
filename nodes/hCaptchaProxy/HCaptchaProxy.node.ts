@@ -6,7 +6,6 @@ import type {
 } from 'n8n-workflow';
 import { NodeConnectionType } from 'n8n-workflow';
 import { NodeOperationError } from 'n8n-workflow';
-import axios from 'axios';
 
 export class HCaptchaProxy implements INodeType {
 	description: INodeTypeDescription = {
@@ -49,33 +48,41 @@ export class HCaptchaProxy implements INodeType {
 				const credentials = await this.getCredentials('hCaptchaApi');
 				const response = this.getNodeParameter('response', itemIndex) as string;
 
-				console.log(`[hCaptcha] Verifying response for item ${itemIndex}`);
+				// 🔍 Debug logging
+				console.log(`[hCaptcha] Item ${itemIndex} credentials.secret:`, credentials.secret);
+				console.log(`[hCaptcha] Item ${itemIndex} response token:`, response);
 
-				const verificationResponse = await axios.post(
-					'https://hcaptcha.com/siteverify',
-					new URLSearchParams({
+				console.log(`[hCaptcha] Sending verification request for item ${itemIndex}...`);
+
+				const postBody = new URLSearchParams({
 					secret: String(credentials.secret),
 					response,
-					}).toString(),
-					{
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded',
-						},
-					}
-				);
+				}).toString();
 
-				console.log(`[hCaptcha] Verification result for item ${itemIndex}:`, verificationResponse.data);
+				console.log(`[hCaptcha] Item ${itemIndex} POST body:`, postBody);
+
+				const verificationResponse = await this.helpers.httpRequest({
+					method: 'POST',
+					url: 'https://hcaptcha.com/siteverify',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: postBody,
+					json: true, // automatically parses JSON
+				});
+
+				console.log(`[hCaptcha] Verification raw response for item ${itemIndex}:`, verificationResponse);
 
 				results.push({
 					json: {
-						success: verificationResponse.data.success,
-						...verificationResponse.data,
+						success: verificationResponse.success,
+						...verificationResponse,
 					},
 				});
 			} catch (error) {
 				console.error(`[hCaptcha] Error verifying item ${itemIndex}:`, error);
 				if (this.continueOnFail()) {
-					results.push({ json: { error: error.message }, pairedItem: itemIndex });
+					results.push({ json: { error: (error as Error).message }, pairedItem: itemIndex });
 				} else {
 					throw new NodeOperationError(this.getNode(), error, { itemIndex });
 				}
