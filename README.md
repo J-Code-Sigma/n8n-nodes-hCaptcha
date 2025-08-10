@@ -82,4 +82,4 @@ If you're new to n8n, check out the [Try it out](https://docs.n8n.io/try-it-out/
 
 ## Version history
 
-- **v1.0.0**: Initial release supporting hCaptcha response verification via secret key and token.
+- **v0.1.3**: Initial release supporting hCaptcha response verification via secret key and token.
